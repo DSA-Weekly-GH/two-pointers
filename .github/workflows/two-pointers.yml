@@ -36,7 +36,7 @@ jobs:
       - name: Unzip artifact
         run: unzip pr.zip
 
-      - name: "Comment on PR"
+      - name: "Export PR number"
         run: |
           export PR_NUMBER=$(cat ./NR)
           echo "PR_NUMBER=$PR_NUMBER" >> $GITHUB_ENV
