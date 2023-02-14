@@ -1,4 +1,4 @@
-name: Two Pointers
+name: Send Notification
 
 on:
   workflow_run:
