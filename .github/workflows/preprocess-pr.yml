@@ -5,7 +5,7 @@ on:
     branches: [main, master]
 
 jobs:
-  build:
+  save-pr-number:
     runs-on: ubuntu-latest
 
     steps:        
