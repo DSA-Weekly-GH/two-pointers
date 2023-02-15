@@ -1,24 +1,3 @@
-name: Check LeetCode Screenshot Proof
-
-on:
-  pull_request:
-    types: [opened, edited, reopened, synchronize]
-
-screenshot:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Check LeetCode Screenshot Proof
-      id: screenshot
-      uses: actions/checkout@v2
-      with:
-        ref: ${{ github.event.pull_request.head.sha }}
-    - run: |
-        screenshots=$(find . -name '*.png' -or -name '*.jpg' -or -name '*.jpeg')
-        if [ -z "$screenshots" ]; then
-          echo "LeetCode screenshot not found."
-          exit 1
-        fi
-
 ## Check
 
 - [ ] I have given the PR an appropriate name
