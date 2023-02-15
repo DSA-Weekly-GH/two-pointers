@@ -2,6 +2,7 @@ name: Preprocess PR
 
 on:
   pull_request:
+    types: [opened]
     branches: [main, master]
 
 jobs:
