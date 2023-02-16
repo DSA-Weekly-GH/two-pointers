@@ -1,0 +1,28 @@
+name: Checkbox
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  checkboxes-checked:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check Checkboxes
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+      - name: Check if all checkboxes are ticked
+        id: checkboxes
+        run: |
+          if grep -q -E '\[\s\]\s' $(git diff --name-only origin/main --diff-filter=AM | grep -E '\.md$'); then
+            echo "Not all checkboxes are ticked."
+            exit 1
+          else
+            echo "All checkboxes are ticked."
+          fi
+      - name: Trigger Notification
+        if: steps.checkboxes.outcome == 'success'
+        run: |
+          # Trigger notification here...
