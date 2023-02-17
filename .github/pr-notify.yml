@@ -1,20 +1,35 @@
-name: PR Notification
+name: Checkbox Notify
+
 on:
   pull_request:
-    types: [opened]
+    types: [opened, synchronize]
 
 jobs:
-  notification:
+  checkboxes-checked:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Notification
-        uses: peter-evans/create-pull-request-comment@v3.10.0
+    - name: Checkout code
+      uses: actions/github-script@v3.1.0
+    - name: Check if checkboxes are ticked
+      id: checkboxes
+      run: echo ::set-output name=checked::$(grep -c "\- \[x\]" $GITHUB_EVENT_PATH)
+    - name: Notify when all checkboxes are ticked
+      if: ${{ steps.checkboxes.outputs.checked == '0' }}
+      run: |
+        echo "Not all checkboxes are ticked. Notification not sent."
+      if: ${{ steps.checkboxes.outputs.checked == '1' }}
+      run: |
+        echo "All checkboxes are ticked. Sending notification..."
+        - name: Send telegram notification on PR
+        uses: appleboy/telegram-action@v0.1.1
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          to: ${{ secrets.TELEGRAM_DEST_CHAT }}
+          token: ${{ secrets.TELEGRAM_ACCESS_TOKEN }}
+          disable_notification: true
           message: |
-            **Please review my pull request**
-            - [ ] Checked for spelling and grammar
-            - [ ] Reviewed code changes
-            - [ ] Ran automated tests
+            ${{ github.actor }} raised a PR.
+            Repository: ${{ github.repository }}
+            All members can review here:
+            https://github.com/${{ github.repository }}/pull/${{ env.PR_NUMBER }}
+
+      
