@@ -1,0 +1,20 @@
+name: PR Notification
+on:
+  pull_request:
+    types: [opened]
+
+jobs:
+  notification:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Notification
+        uses: peter-evans/create-pull-request-comment@v3.10.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          message: |
+            **Please review my pull request**
+            - [ ] Checked for spelling and grammar
+            - [ ] Reviewed code changes
+            - [ ] Ran automated tests
