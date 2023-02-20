@@ -2,23 +2,18 @@ name: Checkbox Notify
 
 on:
   pull_request:
-    types: [opened, synchronize]
+    types: [opened]
 
 jobs:
   checkboxes-checked:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout code
       uses: actions/github-script@v3.1.0
     - name: Check if checkboxes are ticked
       id: checkboxes
       run: echo ::set-output name=checked::$(grep -c "\- \[x\]" $GITHUB_EVENT_PATH)
     - name: Notify when all checkboxes are ticked
       if: ${{ steps.checkboxes.outputs.checked == '0' }}
-      run: |
-        echo "Not all checkboxes are ticked. Notification not sent."
-      if: ${{ steps.checkboxes.outputs.checked == '1' }}
-      run: |
         echo "All checkboxes are ticked. Sending notification..."
         - name: Send telegram notification on PR
         uses: appleboy/telegram-action@v0.1.1
