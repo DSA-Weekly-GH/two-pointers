@@ -8,20 +8,18 @@ jobs:
   checkboxes-checked:
     runs-on: ubuntu-latest
     steps:
-      uses: actions/github-script@v3.1.0
     - name: Check if checkboxes are ticked
       id: checkboxes
       run: echo ::set-output name=checked::$(grep -c "\- \[x\]" $GITHUB_EVENT_PATH)
     - name: Notify when all checkboxes are ticked
       if: ${{ steps.checkboxes.outputs.checked == '0' }}
         echo "All checkboxes are ticked. Sending notification..."
-        - name: Send telegram notification on PR
-        uses: appleboy/telegram-action@v0.1.1
-        with:
-          to: ${{ secrets.TELEGRAM_DEST_CHAT }}
-          token: ${{ secrets.TELEGRAM_ACCESS_TOKEN }}
-          disable_notification: true
-          message: |
+      uses: appleboy/telegram-action@v0.1.1
+      with:
+      to: ${{ secrets.TELEGRAM_DEST_CHAT }}
+      token: ${{ secrets.TELEGRAM_ACCESS_TOKEN }}
+      disable_notification: true
+      message: |
             ${{ github.actor }} raised a PR.
             Repository: ${{ github.repository }}
             All members can review here:
