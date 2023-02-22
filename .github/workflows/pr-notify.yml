@@ -1,4 +1,4 @@
-name: Two Pointers Notify
+name: PR Notify
 
 on:
   workflow_run:
