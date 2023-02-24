@@ -4,7 +4,7 @@ on:
   pull_request:
     types: [opened, edited]
 
-permissions: read-all
+permissions: read-all|write-all
 
 jobs:
   checkboxes-checked:
@@ -12,7 +12,7 @@ jobs:
     steps:
     - uses: kentaro-m/task-completed-checker-action@v0.1.1
       with:
-        repo-token: "${{ secrets.GITHUB_TOKEN }}"
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
     - name: Notify when all checkboxes are ticked
       uses: appleboy/telegram-action@v0.1.1
       with:
