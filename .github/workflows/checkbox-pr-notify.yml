@@ -12,6 +12,8 @@ jobs:
     # - uses: kentaro-m/task-completed-checker-action@v0.1.1
     #   with:
     #     repo-token: "${{ secrets.GITHUB_TOKEN }}"
+    - name: Echo GITHUB_EVENT_PATH
+      run: echo $GITHUB_EVENT_PATH
     - name: Check if checkboxes are ticked
       id: checkboxes
       run: echo ::set-output name=checked::$(grep -c "\- \[x\]" $GITHUB_EVENT_PATH)
