@@ -13,12 +13,13 @@ jobs:
     #   with:
     #     repo-token: "${{ secrets.GITHUB_TOKEN }}"
     - name: Echo GITHUB_EVENT_PATH
-      run: echo $GITHUB_EVENT_PATH
+      run: cat $GITHUB_EVENT_PATH
     - name: Check if checkboxes are ticked
       id: checkboxes
       run: echo ::set-output name=checked::$(grep -c "\- \[x\]" $GITHUB_EVENT_PATH)
     - name: Notify when all checkboxes are ticked
-      if: ${{ steps.checkboxes.outputs.checked == '0' }}
+      # number of tasks in PR template = 3
+      if: ${{ steps.checkboxes.outputs.checked == '3' }}
         echo "All checkboxes are ticked. Sending notification..."
       uses: appleboy/telegram-action@v0.1.1
       with:
