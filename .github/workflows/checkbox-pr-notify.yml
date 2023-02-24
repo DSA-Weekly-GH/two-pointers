@@ -9,18 +9,10 @@ jobs:
   checkboxes-checked:
     runs-on: ubuntu-latest
     steps:
-    # - uses: kentaro-m/task-completed-checker-action@v0.1.1
-    #   with:
-    #     repo-token: "${{ secrets.GITHUB_TOKEN }}"
-    - name: Echo GITHUB_EVENT_PATH
-      run: cat $GITHUB_EVENT_PATH
-    - name: Check if checkboxes are ticked
-      id: checkboxes
-      run: echo ::set-output name=checked::$(grep -c "\- \[x\]" $GITHUB_EVENT_PATH)
+    - uses: kentaro-m/task-completed-checker-action@v0.1.1
+      with:
+        repo-token: "${{ secrets.GITHUB_TOKEN }}"
     - name: Notify when all checkboxes are ticked
-      # number of tasks in PR template = 3
-      if: ${{ steps.checkboxes.outputs.checked == '3' }}
-        echo "All checkboxes are ticked. Sending notification..."
       uses: appleboy/telegram-action@v0.1.1
       with:
         to: ${{ secrets.TELEGRAM_DEST_CHAT }}
