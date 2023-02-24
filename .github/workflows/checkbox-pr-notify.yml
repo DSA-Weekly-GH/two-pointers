@@ -4,8 +4,6 @@ on:
   pull_request:
     types: [opened, edited]
 
-permissions: read-all|write-all
-
 jobs:
   checkboxes-checked:
     runs-on: ubuntu-latest
