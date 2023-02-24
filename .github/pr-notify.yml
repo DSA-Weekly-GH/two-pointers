@@ -11,6 +11,7 @@ jobs:
     - name: Check if checkboxes are ticked
       id: checkboxes
       run: echo ::set-output name=checked::$(grep -c "\- \[x\]" $GITHUB_EVENT_PATH)
+      echo $GITHUB_EVENT_PATH
     - name: Notify when all checkboxes are ticked
       if: ${{ steps.checkboxes.outputs.checked == '0' }}
         echo "All checkboxes are ticked. Sending notification..."
